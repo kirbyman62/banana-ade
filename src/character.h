@@ -39,9 +39,8 @@ enum Direction
 class Character
 {
 	protected:
-		//The sprite and images:
+		//The sprite:
 		sf::Sprite _sprite;
-		static sf::Image _images[];
 
 		//The animation frame and the timer:
 		int _frame;
