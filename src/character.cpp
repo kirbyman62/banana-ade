@@ -6,75 +6,83 @@ sf::Sprite& Character::getSprite()
 	return _sprite;
 }
 
-//Checks for any collisions between the character and a sprite:
-Collision Character::checkCollision(sf::Sprite& spriteB) const
-{	
-	//Calculates the 4 'sides' of object A, the character:
-	float topA, bottomA, leftA, rightA;
-	float topB, bottomB, leftB, rightB;
-	topA = _sprite.GetPosition().y;
-	bottomA = (_sprite.GetPosition().y + _sprite.GetSize().y);
-	leftA = _sprite.GetPosition().x;
-	rightA = (_sprite.GetPosition().x + _sprite.GetSize().x);
+//Checks for a collision between the character and the passed sprite:
+Collision Character::checkCollision(sf::Sprite& target) const
+{
+	//Gets the sides of the character:
+	//These are represented as 1 pixel wide rectangles:
+	sf::FloatRect A = _sprite.getGlobalBounds();
+	sf::FloatRect topA(A.left, A.top, A.width, 1);
+	sf::FloatRect bottomA(A.left, (A.top + A.height), A.width, 1);
+	sf::FloatRect leftA(A.left, A.top, 1, A.height);
+	sf::FloatRect rightA((A.left + A.width), A.top, 1, A.height);
 
-	//Calculates the 4 'sides' of object B, the given sprite:
-	topB = spriteB.GetPosition().y;
-	bottomB = (spriteB.GetPosition().y + spriteB.GetSize().y);
-	leftB = spriteB.GetPosition().x;
-	rightB = (spriteB.GetPosition().x + spriteB.GetSize().x);
+	//The rectangle of the target sprite, we will check to see
+	//if the character is inside this rectangle:
+	sf::FloatRect B = target.getGlobalBounds();
 
-	//Top and bottom:
-	if((leftA <= rightB) && (rightA >= leftB))
-	{
-		//Top:
-		if((topA <= bottomB) && (topA >= topB))
-			return COLLISION_UP;
+	//Checks for collisions in the corners:
+	//Top left:
+	if((B.intersects(topA)) && (B.intersects(leftA)))
+		return COLLISION_TOPLEFT;
 
-		//Bottom:
-		if((bottomA >= topB) && (bottomA <= bottomB))
-			return COLLISION_DOWN;
-	}
-	//Left and right:
-	if((topA <= bottomB) && (bottomA >= topB))
-	{
-		//Left:
-		if((leftA <= rightB) && (leftA >= leftB))
-			return COLLISION_LEFT;
+	//Top right:
+	if((B.intersects(topA)) && (B.intersects(rightA)))
+		return COLLISION_TOPRIGHT;
 
-		//Right:
-		if((rightA >= leftB) && (rightA <= rightB))
-			return COLLISION_RIGHT;
+	//Bottom left:
+	if((B.intersects(bottomA)) && (B.intersects(leftA)))
+		return COLLISION_BOTTOMLEFT;
 
-	}
+	//Bottom right:
+	if((B.intersects(bottomA)) && (B.intersects(rightA)))
+		return COLLISION_BOTTOMRIGHT;
+
+	//Otherwise, it is a single side:
+	//Top:
+	if(B.intersects(topA))
+		return COLLISION_TOP;
+
+	//Bottom:
+	if(B.intersects(bottomA))
+		return COLLISION_BOTTOM;
+	
+	//Left:
+	if(B.intersects(leftA))
+		return COLLISION_LEFT;
+
+	//Right:
+	if(B.intersects(rightA))
+		return COLLISION_LEFT;
+
+	//Otherwise, there is no collision:
 	return COLLISION_NONE;
 }
 
-//Checks for any collisions between the character and a window:
+//Checks for a collision between the character and the passed window:
 Collision Character::checkCollision(sf::Window& window) const
-{
-	//Calculates the 4 'sides' of object A, the character:
+{	
+	//Gets the sides of the character:
 	float topA, bottomA, leftA, rightA;
-
-	//Calculates the 4 'sides' of object B, the window:
-	topA = _sprite.GetPosition().y;
-	bottomA = (_sprite.GetPosition().y + _sprite.GetSize().y);
-	leftA = _sprite.GetPosition().x;
-	rightA = (_sprite.GetPosition().x + _sprite.GetSize().x);
+	topA = _sprite.getGlobalBounds().top;
+	bottomA = _sprite.getGlobalBounds().height + topA;
+	leftA = _sprite.getGlobalBounds().left;
+	rightA = _sprite.getGlobalBounds().width + leftA;
 
 	//Top:
 	if(topA < 0)
-		return COLLISION_UP;
+		return COLLISION_TOP;
 
 	//Bottom:
-	if(bottomA > window.GetHeight())
-		return COLLISION_DOWN;
+	if(bottomA > window.getSize().y)
+		return COLLISION_BOTTOM;
 
 	//Left:
 	if(leftA < 0) 
 		return COLLISION_LEFT;
 
 	//Right:
-	if(rightA > window.GetWidth())
+	if(rightA > window.getSize().x)
 		return COLLISION_RIGHT;
 
 	//Otherwise there is no collision:
