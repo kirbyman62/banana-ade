@@ -15,3 +15,13 @@ unsigned int PlayableCharacter::getScore()
 {
 	return _score;
 }
+
+bool PlayableCharacter::isJumping()
+{
+	return _isJumping;
+}
+
+bool PlayableCharacter::isFalling()
+{
+	return _isFalling;
+}
