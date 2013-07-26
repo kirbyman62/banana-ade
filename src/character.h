@@ -53,13 +53,6 @@ class Character
 		//The direction the character is facing:
 		Direction _direction;
 	public:
-		//Loads the images:
-		//The images of each class are static, so the same images are
-		//not loaded into memory an unnessecary amount of times. We could
-		//still do with having the initialise function being polymorphic,
-		//as different characters will have different images that need loading.
-		virtual bool init() = 0;
-
 		//Getters:
 		//(Is giving full access to the sprite too much?)
 		//(Perhaps just specific setters/getters for aspects we need)
