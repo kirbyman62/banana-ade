@@ -28,7 +28,7 @@
 #define PLAYABLE_CHARACTER_H
 #include "character.h"
 
-class PlayableCharacter
+class PlayableCharacter : public Character
 {
 	protected:
 		//The lives remaining:
@@ -64,7 +64,7 @@ class PlayableCharacter
 		virtual void jump(float) = 0;
 
 		//Setters:
-		virtual void setFalling() = 0;
+		virtual void setFalling(bool) = 0;
 
 		//Getters:
 		short unsigned int getLives();
