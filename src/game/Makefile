@@ -3,7 +3,7 @@ CC=g++
 LIBS=-lsfml-graphics -lsfml-window -lsfml-system
 FLAGS=-Wall -c
 
-SDIR=.
+SDIR=./
 ODIR=$(SDIR)obj/
 
 $(ODIR)character.o: $(SDIR)character.cpp $(SDIR)character.h
@@ -17,6 +17,10 @@ $(ODIR)playableCharacter.o: $(SDIR)playableCharacter.cpp $(SDIR)playableCharacte
 $(ODIR)level.o: $(SDIR)level.cpp $(SDIR)level.h
 	$(CC) $(FLAGS) $(SDIR)level.cpp
 	mv playableCharacter.o $(ODIR)
+
+$(ODIR)tile.o: $(SDIR)tile.cpp $(SDIR)tile.h
+	$(CC) $(FLAGS) $(SDIR)tile.cpp
+	mv tile.o $(ODIR)
 
 .PHONY: clean
 clean:
