@@ -53,3 +53,5 @@ enum Direction
 	LEFT,
 	RIGHT,
 };
+
+#endif
