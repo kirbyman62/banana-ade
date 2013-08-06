@@ -42,10 +42,13 @@ Level::Level(std::string filename)
 		//Checks if it contains relevant info, and
 		//adds it to the object's members if so:
 		if(line.substr(0, 5) == "name=")
-			_name = line.substr(4);
+			_name = line.substr(5);
 		else if(line.substr(0, 7) == "author=")
-			_author = line.substr(6);
+			_author = line.substr(7);
 	}
+
+	//Some other stuff for enemies:
+	//lel
 
 	//The code for the tile that has been read:
 	int tileCode = -1;
@@ -57,15 +60,15 @@ Level::Level(std::string filename)
 	int i = 0, j = 0;
 
 	//The next part is the tile layout:
-	while(tileCode != 999)
+	while(reader.good())
 	{
 		//All the tiles on the same line have the
 		//same Y co-ordinate, so it reads in lines:
 		while(reader.peek() != '\n')
 		{
 			//The X and Y co-ordinates of the tile:
-			int x = TILE_WIDTH * j;
-			int y = TILE_HEIGHT * i;
+			float x = TILE_WIDTH * j;
+			float y = TILE_HEIGHT * i;
 
 			//Reads the tile code:
 			reader >> tileCode;
@@ -84,9 +87,6 @@ Level::Level(std::string filename)
 		}
 		i++;
 	}
-
-	//Some other stuff for enemies:
-	//lel
 }
 
 Level::~Level()

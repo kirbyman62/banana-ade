@@ -27,12 +27,11 @@
 
 #ifndef LEVEL_H
 #define LEVEL_H
-#include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
 #include "tile.h"
-#include "enemy.h" //This does not yet exist
-#include "projectile.h" //This does not yet exist
+//#include "enemy.h" //This does not yet exist
+//#include "projectile.h" //This does not yet exist
 
 class Level
 {
@@ -45,10 +44,10 @@ class Level
 		std::vector <Tile*> _tiles;
 
 		//The enemies in the level:
-		std::vector <Enemy*> _enemies;
+//		std::vector <Enemy*> _enemies;
 
 		//The various projectiles:
-		std::vector <Projectile*> _projectiles;
+//		std::vector <Projectile*> _projectiles;
 
 	public:
 		//Constructor:
