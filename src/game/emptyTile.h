@@ -28,7 +28,7 @@
 #define EMPTY_TILE_H
 #include "tile.h"
 
-class EmptyTile
+class EmptyTile : public Tile
 {
 	private:
 		//The image of the tile:
