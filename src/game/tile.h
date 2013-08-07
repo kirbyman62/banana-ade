@@ -58,9 +58,9 @@ class Tile
 		//Includes overloaded functions should
 		//the tile require information on the
 		//player, or the screen:
-		virtual void handleEvents() = 0;
-		virtual void handleEvents(sf::Window&) = 0;
-		virtual void handleEvents(playableCharacter&) = 0;
+		//virtual void handleEvents() = 0;
+		//virtual void handleEvents(sf::Window&) = 0;
+		//virtual void handleEvents(PlayableCharacter&) = 0;
 };
 
 #endif
