@@ -29,7 +29,7 @@
 #define LEVEL_H
 #include <vector>
 #include <string>
-#include "tile.h"
+#include "tiles.h"
 //#include "enemy.h" //This does not yet exist
 //#include "projectile.h" //This does not yet exist
 
@@ -37,8 +37,7 @@ class Level
 {
 	private:
 		//Various metadata tags about the level:
-		//[No clue if having them 'const' will work, let's find out]
-		const std::string _name, _author;
+		std::string _name, _author;
 
 		//The tiles that make up the level:
 		std::vector <Tile*> _tiles;
@@ -57,8 +56,8 @@ class Level
 		~Level();
 
 		//Getters:
-		std::string& getName() const;
-		std::string& getAuthor() const;
+		std::string& getName();
+		std::string& getAuthor();
 };
 
 #endif

@@ -21,7 +21,7 @@
 Level::Level(std::string filename)
 {
 	//Creates an input file stream to read the level:
-	ifstream reader(filename);
+	std::ifstream reader(filename.c_str());
 
 	//Checks the filestream was created successfully:
 	if(! reader)
@@ -77,6 +77,7 @@ Level::Level(std::string filename)
 			switch(tileCode)
 			{
 				case 0: tilePtr = new EmptyTile(x, y); break;
+				case 1: tilePtr = new SolidTile(x, y); break;
 				default: throw "Invalid Tile"; break;
 			}
 
@@ -92,22 +93,22 @@ Level::Level(std::string filename)
 Level::~Level()
 {
 	//Deletes the tiles, enemies and projectiles:
-	for(int i = 0; i < _tiles.size(); i++)
+	for(unsigned int i = 0; i < _tiles.size(); i++)
 		delete _tiles[i];
 
-	for(int i = 0; i < _enemies.size(); i++)
+	/*for(unsigned int i = 0; i < _enemies.size(); i++)
 		delete _enemies[i];
 
-	for(int i = 0; i < _projectiles.size(); i++)
-		delete _projectiles[i];
+	for(unsigned int i = 0; i < _projectiles.size(); i++)
+		delete _projectiles[i];*/
 }
 
-std::string& Level::getName() const
+std::string& Level::getName()
 {
 	return _name;
 }
 
-std::string& Level::getAuthor() const
+std::string& Level::getAuthor()
 {
 	return _author;
 }
