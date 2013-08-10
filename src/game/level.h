@@ -30,7 +30,7 @@
 #include <vector>
 #include <string>
 #include "tiles.h"
-#include "currentView.h"
+//#include "currentView.h" //This does not exist yet
 //#include "enemy.h" //This does not yet exist
 //#include "projectile.h" //This does not yet exist
 
@@ -50,7 +50,7 @@ class Level
 //		std::vector <Projectile*> _projectiles;
 
 		//The current view, which requires access to these lists:
-		friend class CurrentView;
+		//friend class CurrentView;
 
 	public:
 		//Constructor:

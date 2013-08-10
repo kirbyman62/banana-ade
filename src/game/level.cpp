@@ -17,7 +17,6 @@
  */
 #include "level.h"
 #include <fstream>
-#include <iostream>
 
 Level::Level(std::string filename)
 {
