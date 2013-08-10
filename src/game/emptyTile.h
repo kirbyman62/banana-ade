@@ -38,7 +38,7 @@ class EmptyTile : public Tile
 		//Loads the image:
 		static bool init();
 
-		//Initialiser:
+		//Constructor:
 		EmptyTile(float, float);
 };
 

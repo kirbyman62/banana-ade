@@ -17,6 +17,7 @@
  */
 #include "level.h"
 #include <fstream>
+#include <iostream>
 
 Level::Level(std::string filename)
 {
@@ -60,11 +61,11 @@ Level::Level(std::string filename)
 	int i = 0, j = 0;
 
 	//The next part is the tile layout:
-	while(reader.good())
+	while(reader.peek() != -1)
 	{
 		//All the tiles on the same line have the
 		//same Y co-ordinate, so it reads in lines:
-		while(reader.peek() != '\n')
+		while(char(reader.peek()) != '\n')
 		{
 			//The X and Y co-ordinates of the tile:
 			float x = TILE_WIDTH * j;
@@ -86,8 +87,11 @@ Level::Level(std::string filename)
 
 			j++;
 		}
+		j = 0;
 		i++;
+		reader.ignore(1, '\n');
 	}
+	reader.close();
 }
 
 Level::~Level()
@@ -111,4 +115,9 @@ std::string& Level::getName()
 std::string& Level::getAuthor()
 {
 	return _author;
+}
+
+std::vector <Tile*>& Level::getTiles()
+{
+	return _tiles;
 }

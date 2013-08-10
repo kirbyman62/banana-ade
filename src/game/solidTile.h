@@ -25,6 +25,7 @@
  */
 #ifndef SOLID_TILE_H
 #define SOLID_TILE_H
+#include "tile.h"
 
 class SolidTile : public Tile
 {
@@ -36,7 +37,7 @@ class SolidTile : public Tile
 		//Loads the image:
 		static bool init();
 
-		//Initialiser:
+		//Constructor:
 		SolidTile(float, float);
 };
 

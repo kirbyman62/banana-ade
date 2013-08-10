@@ -42,6 +42,8 @@ SolidTile::SolidTile(float x, float y)
 	if(! _texture.loadFromImage(_image))
 		throw "Failed to load texture";
 
+	_sprite.setTexture(_texture);
+
 	//Sets the solid property:
 	_isSolid = true;
 

@@ -54,6 +54,8 @@ class Tile
 		sf::Sprite& getSprite();
 		bool isSolid();
 
+		virtual ~Tile() { }
+
 		//Handle any events that may occur.
 		//Includes overloaded functions should
 		//the tile require information on the

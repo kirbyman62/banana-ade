@@ -17,9 +17,9 @@
  */
 #include "emptyTile.h"
 
-sf::Image emptyTile::_image;
+sf::Image EmptyTile::_image;
 
-bool emptyTile::init()
+bool EmptyTile::init()
 {
 	//Since the image is just a transparent square we don't have to 
 	//bother with loading it from a file, we can just make it with SFML:
@@ -35,6 +35,8 @@ EmptyTile::EmptyTile(float x, float y)
 	//Loads the texture from the image:
 	if(! _texture.loadFromImage(_image))
 		throw "Failed to load texture";
+
+	_sprite.setTexture(_texture);
 
 	//Sets the solid property:
 	_isSolid = false;
