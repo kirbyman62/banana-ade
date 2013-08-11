@@ -34,6 +34,9 @@ int main()
 	//Creates a window:
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Banana-ade");
 
+	//Creates a view of the level:
+	sf::View view = window.getDefaultView();
+
 	Level* level = NULL;
 
 	//Loads the level:
@@ -61,6 +64,29 @@ int main()
 		{
 			if(event.type == sf::Event::Closed)
 				window.close();
+
+			//Resizes the view if the window is resized:
+			if(event.type == sf::Event::Resized)
+			{
+				view.setSize(event.size.width, event.size.height);
+				window.setView(view);
+			}
+		}
+
+		//Checks if the left key is pressed:
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		{
+			//Moves the view left:
+			view.move(-3, 0);
+			window.setView(view);
+		}
+
+		//Checks if the right key is pressed:
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		{
+			//Moves the view right:
+			view.move(3, 0);
+			window.setView(view);
 		}
 
 		//Clear the screen white:
