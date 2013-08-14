@@ -17,10 +17,13 @@
  */
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <SFML/Graphics.hpp>
 
 #include "level.h"
 #include "tiles.h"
+
+float getAverageFPS(float);
 
 int main()
 {
@@ -31,18 +34,34 @@ int main()
 	if(! SolidTile::init())
 		return -1;
 
+	//Loads the font:
+	sf::Font font;
+	if(! font.loadFromFile("/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf"))
+		return -1;
+
 	//Creates a window:
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Banana-ade");
 
 	//Creates a view of the level:
 	sf::View view = window.getDefaultView();
 
-	Level* level = NULL;
+	//Creates the text:
+	sf::Text text;
+	text.setFont(font);
+	text.setColor(sf::Color::Black);
+	text.setCharacterSize(16);
+	text.setString("Average FPS:");
 
+	//Position the text:
+	float textX = view.getSize().x * 0.75;
+	float textY = 30;
+	text.setPosition(textX, textY);
+
+	Level* level = NULL;
 	//Loads the level:
 	try
 	{
-		level = new Level("assets/levels/test01.blv");
+		level = new Level("assets/levels/test02.blv");
 	}
 	catch(const char* e)
 	{
@@ -56,6 +75,12 @@ int main()
 
 	sf::Event event;
 
+	//Measures the framerate:
+	sf::Clock fps;
+
+	//The time of one frame, used for movement calculations:
+	float frameTime = 0.016;
+
 	//The main loop:
 	while(window.isOpen())
 	{
@@ -65,11 +90,17 @@ int main()
 			if(event.type == sf::Event::Closed)
 				window.close();
 
-			//Resizes the view if the window is resized:
+			//Handles the window being resized:
 			if(event.type == sf::Event::Resized)
 			{
+				//Resize the view:
 				view.setSize(event.size.width, event.size.height);
 				window.setView(view);
+
+				//Position the text:
+				textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
+				textY = (view.getCenter().y - (view.getSize().y / 2)) + 35;
+				text.setPosition(textX, textY);
 			}
 		}
 
@@ -77,20 +108,44 @@ int main()
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
 			//Moves the view left:
-			view.move(-3, 0);
+			view.move((-100 * frameTime), 0);
 			window.setView(view);
+
+			//Position the text:
+			textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
+			textY = (view.getCenter().y - (view.getSize().y / 2)) + 35;
+			text.setPosition(textX, textY);
 		}
 
 		//Checks if the right key is pressed:
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
 			//Moves the view right:
-			view.move(3, 0);
+			view.move((100 * frameTime), 0);
 			window.setView(view);
+
+			//Position the text:
+			textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
+			textY = (view.getCenter().y - (view.getSize().y / 2)) + 35;
+			text.setPosition(textX, textY);
 		}
 
 		//Clear the screen white:
 		window.clear(sf::Color::White);
+
+		//Calculate the FPS:
+		float fps_f = 1 / frameTime;
+
+		//Write the FPS:
+		if(getAverageFPS(fps_f) != -1)
+		{
+			std::stringstream fps_sstream;
+			fps_sstream << "Average FPS: " << fps_f;
+			text.setString(fps_sstream.str());
+		}
+
+		//Draw the text:
+		window.draw(text);
 
 		//Draw the tiles:
 		for(unsigned int i = 0; i < level->getTiles().size(); i++)
@@ -98,7 +153,30 @@ int main()
 
 		//Display the window:
 		window.display();
+
+		//Calculate the frame rate:
+		frameTime = fps.restart().asSeconds();
 	}
 	delete level;
 	return 0;
+}
+
+float getAverageFPS(float time)
+{
+	static float times[150];
+	static int i = 0;
+
+	if(i < 150)
+	{
+		times[i++] = time;
+		return -1;
+	}
+	else
+	{
+		float total = 0;
+		for(int j = 0; j < 150; j++)
+			total += times[j];
+		i = 0;
+		return total / 150;
+	}
 }
