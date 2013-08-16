@@ -36,7 +36,7 @@ int main()
 
 	//Loads the font:
 	sf::Font font;
-	if(! font.loadFromFile("/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf"))
+	if(! font.loadFromFile("assets/fonts/Full-Dece-Sans-1.0.ttf"))
 		return -1;
 
 	//Creates a window:
@@ -61,7 +61,7 @@ int main()
 	//Loads the level:
 	try
 	{
-		level = new Level("assets/levels/test02.blv");
+		level = new Level("assets/levels/test01.blv");
 	}
 	catch(const char* e)
 	{
