@@ -42,39 +42,39 @@ Collision Character::checkCollision(sf::Sprite& target) const
 	//Checks for collisions in the corners:
 	//Top left:
 	if((B.intersects(topA)) && (B.intersects(leftA)))
-		return COLLISION_TOPLEFT;
+		return TOPLEFT;
 
 	//Top right:
 	if((B.intersects(topA)) && (B.intersects(rightA)))
-		return COLLISION_TOPRIGHT;
+		return TOPRIGHT;
 
 	//Bottom left:
 	if((B.intersects(bottomA)) && (B.intersects(leftA)))
-		return COLLISION_BOTTOMLEFT;
+		return BOTTOMLEFT;
 
 	//Bottom right:
 	if((B.intersects(bottomA)) && (B.intersects(rightA)))
-		return COLLISION_BOTTOMRIGHT;
+		return BOTTOMRIGHT;
 
 	//Otherwise, it is a single side:
 	//Top:
 	if(B.intersects(topA))
-		return COLLISION_TOP;
+		return TOP;
 
 	//Bottom:
 	if(B.intersects(bottomA))
-		return COLLISION_BOTTOM;
+		return BOTTOM;
 	
 	//Left:
 	if(B.intersects(leftA))
-		return COLLISION_LEFT;
+		return LEFT;
 
 	//Right:
 	if(B.intersects(rightA))
-		return COLLISION_LEFT;
+		return RIGHT;
 
 	//Otherwise, there is no collision:
-	return COLLISION_NONE;
+	return NONE;
 }
 
 //Checks for a collision between the character and the passed window:
@@ -89,20 +89,20 @@ Collision Character::checkCollision(sf::Window& window) const
 
 	//Top:
 	if(topA < 0)
-		return COLLISION_TOP;
+		return TOP;
 
 	//Bottom:
 	if(bottomA > window.getSize().y)
-		return COLLISION_BOTTOM;
+		return BOTTOM;
 
 	//Left:
 	if(leftA < 0) 
-		return COLLISION_LEFT;
+		return LEFT;
 
 	//Right:
 	if(rightA > window.getSize().x)
-		return COLLISION_RIGHT;
+		return RIGHT;
 
 	//Otherwise there is no collision:
-	return COLLISION_NONE;
+	return NONE;
 }

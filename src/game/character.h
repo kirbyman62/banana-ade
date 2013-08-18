@@ -50,6 +50,9 @@ class Character
 		//(Perhaps just specific setters/getters for aspects we need)
 		sf::Sprite& getSprite();
 
+		//Handles non-keyboard events:
+		virtual void handleEvents(float) = 0;
+
 		//Checks for a collision with the given sprite or window:
 		Collision checkCollision(sf::Sprite&) const;
 		Collision checkCollision(sf::Window&) const;

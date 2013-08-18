@@ -6,8 +6,10 @@ FLAGS=-Wall -c
 SDIR=src/game/
 ODIR=$(SDIR)obj/
 
-banana-ade: $(ODIR)main.o $(ODIR)level.o $(ODIR)tile.o $(ODIR)emptyTile.o $(ODIR)solidTile.o
-	$(CC) -o  banana-ade $(ODIR)main.o $(ODIR)level.o $(ODIR)tile.o $(ODIR)emptyTile.o $(ODIR)solidTile.o $(LIBS)
+banana-ade: $(ODIR)main.o $(ODIR)level.o $(ODIR)tile.o $(ODIR)emptyTile.o $(ODIR)solidTile.o $(ODIR)character.o \
+			$(ODIR)playableCharacter.o $(ODIR)banana.o
+	$(CC) -o banana-ade $(ODIR)main.o $(ODIR)level.o $(ODIR)tile.o $(ODIR)emptyTile.o $(ODIR)solidTile.o \
+	$(ODIR)character.o $(ODIR)playableCharacter.o $(ODIR)banana.o $(LIBS)
 
 $(ODIR)main.o: $(SDIR)main.cpp
 	$(CC) $(FLAGS) $(SDIR)main.cpp
@@ -20,6 +22,10 @@ $(ODIR)character.o: $(SDIR)character.cpp $(SDIR)character.h
 $(ODIR)playableCharacter.o: $(SDIR)playableCharacter.cpp $(SDIR)playableCharacter.h
 	$(CC) $(FLAGS) $(SDIR)playableCharacter.cpp
 	mv playableCharacter.o $(ODIR)
+
+$(ODIR)banana.o: $(SDIR)banana.cpp $(SDIR)banana.h
+	$(CC) $(FLAGS) $(SDIR)banana.cpp
+	mv banana.o $(ODIR)
 
 $(ODIR)level.o: $(SDIR)level.cpp $(SDIR)level.h
 	$(CC) $(FLAGS) $(SDIR)level.cpp

@@ -20,23 +20,39 @@
 #include <sstream>
 #include <SFML/Graphics.hpp>
 
+#include "character.h"
+#include "playableCharacter.h"
+#include "banana.h"
+
 #include "level.h"
 #include "tiles.h"
 
+#ifdef _WIN32
+	const std::string fontPath = "assets\\fonts\\Full-Dece-Sans-1.0.ttf";
+#else
+	const std::string fontPath = "assets/fonts/Full-Dece-Sans-1.0.ttf";
+#endif
+
 float getAverageFPS(float);
+
+//The current level, global so the player can get data from it:
+Level* level = NULL;
 
 int main()
 {
-	//Attempts to load the images for the tiles:
+	//Attempts to load the images:
 	if(! EmptyTile::init())
 		return -1;
 
 	if(! SolidTile::init())
 		return -1;
 
+	if(! Banana::init())
+		return -1;
+
 	//Loads the font:
 	sf::Font font;
-	if(! font.loadFromFile("assets/fonts/Full-Dece-Sans-1.0.ttf"))
+	if(! font.loadFromFile(fontPath))
 		return -1;
 
 	//Creates a window:
@@ -44,6 +60,15 @@ int main()
 
 	//Creates a view of the level:
 	sf::View view = window.getDefaultView();
+
+	//The player:
+	PlayableCharacter* player = new Banana(3, 0);
+			
+	//Moves the view to the player:
+	float centreX = player->getSprite().getGlobalBounds().left;
+	float centreY = (window.getSize().y / 2);
+	view.setCenter(centreX, centreY);
+	window.setView(view);
 
 	//Creates the text:
 	sf::Text text;
@@ -53,15 +78,14 @@ int main()
 	text.setString("Average FPS:");
 
 	//Position the text:
-	float textX = view.getSize().x * 0.75;
-	float textY = 30;
+	float textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
+	float textY = (view.getCenter().y - (view.getSize().y / 2)) + 35;	
 	text.setPosition(textX, textY);
 
-	Level* level = NULL;
 	//Loads the level:
 	try
 	{
-		level = new Level("assets/levels/test01.blv");
+		level = new Level("assets/levels/test02.blv");
 	}
 	catch(const char* e)
 	{
@@ -104,11 +128,18 @@ int main()
 			}
 		}
 
+		player->handleEvents(frameTime);
+
 		//Checks if the left key is pressed:
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
-			//Moves the view left:
-			view.move((-100 * frameTime), 0);
+			//Move the player left:
+			player->move(DIRECTION_LEFT, frameTime);
+
+			//Moves the view to the player:
+			float centreX = player->getSprite().getGlobalBounds().left;
+			float centreY = (window.getSize().y / 2);
+			view.setCenter(centreX, centreY);
 			window.setView(view);
 
 			//Position the text:
@@ -120,8 +151,13 @@ int main()
 		//Checks if the right key is pressed:
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
-			//Moves the view right:
-			view.move((100 * frameTime), 0);
+			//Move the player right:
+			player->move(DIRECTION_RIGHT, frameTime);
+
+			//Moves the view to the player:
+			float centreX = player->getSprite().getGlobalBounds().left;
+			float centreY = (window.getSize().y / 2);
+			view.setCenter(centreX, centreY);
 			window.setView(view);
 
 			//Position the text:
@@ -129,6 +165,10 @@ int main()
 			textY = (view.getCenter().y - (view.getSize().y / 2)) + 35;
 			text.setPosition(textX, textY);
 		}
+
+		//Checks if the space bar is pressed:
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+			player->jump();
 
 		//Clear the screen white:
 		window.clear(sf::Color::White);
@@ -146,6 +186,9 @@ int main()
 
 		//Draw the text:
 		window.draw(text);
+
+		//Draw the player:
+		window.draw(player->getSprite());
 
 		//Draw the tiles:
 		for(unsigned int i = 0; i < level->getTiles().size(); i++)

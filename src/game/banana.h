@@ -31,56 +31,56 @@
 #include "playableCharacter.h"
 #include <string>
 
-//The constants specific to 'Banana':
-namespace Bn
+//The number of images to load:
+const int IMAGES = 1;
+
+//If compiling on Windows, use backslashes for the file path:
+#ifdef _WIN32
+	const std::string STATIONARY_IMAGE = "assets\\test-stationary.png";
+#else
+	const std::string STATIONARY_IMAGE = "assets/test-stationary.png";
+#endif
+
+//The various labels for the images:
+enum
 {
-	//The number of images to load:
-	const int IMAGES = 1;
+	STATIONARY
+};
 
-	//If compiling on Windows, use backslashes for the file path:
-	#ifdef _WIN32
-		const std::string STATIONARY_IMAGE = "assets\\banana.png";
-	#else
-		const std::string STATIONARY_IMAGE = "assets/banana.png";
-	#endif
+//The maximum jump height:
+const float MAX_JUMP_HEIGHT = 100.0;
 
-	//The various labels for the images:
-	enum
-	{
-		STATIONARY
-	};
-
-	//The maximum jump height:
-	const float MAX_JUMP_HEIGHT = 100.0;
-
-	//The X and Y velocity:
-	const float X_VELOCITY = 80.0;
-	const float Y_VECLOITY = 100.0;
-}
+//The X and Y velocity:
+const float X_VELOCITY = 80.0;
+const float Y_VELOCITY = 100.0;
 
 class Banana : public PlayableCharacter
 {
 	private:
 		//The images and texture:
-		static sf::Image _images[Bn::IMAGES];
-		sf::Texture _texture;
+		static sf::Image _images[IMAGES];
 
 	public:
 		//Loads the images:
 		static bool init();
 
-		//Handles non-keyboard events, like gravity:
-		void handleEvents();
+		//The constructor:
+		Banana(short unsigned int, unsigned int);
 
-		//Handles keyboard events:
-		void handleKeyboardEvents(sf::Window&);
+		//Moves the player in the specified direction,
+		//factoring in collisions with tiles, enemies and 
+		//projectiles:
+		void move(Direction, float);
 
-		//Makes the character jump, or fall if they've jumped
-		//too high:
-		void jump(float) = 0;
+		//Use the character's 'special' move:
+		void special(float);
+
+		//Handles all events that require no player interaction:
+		void handleEvents(float);
 
 		//Setters:
-		void setFalling(bool) = 0;
+		void jump();
+		void setFalling(bool);
 };
 
 #endif

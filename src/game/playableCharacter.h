@@ -31,6 +31,9 @@
 class PlayableCharacter : public Character
 {
 	protected:
+		//The texture:
+		sf::Texture _texture;
+
 		//The lives remaining:
 		short unsigned int _lives;
 
@@ -50,21 +53,17 @@ class PlayableCharacter : public Character
 		sf::Clock _specialClock;
 
 	public:
-		//Constructor:
-		PlayableCharacter(short unsigned int, unsigned int);
+		//Moves the player in the specified direction,
+		//factoring in collisions with tiles, enemies and 
+		//projectiles:
+		virtual void move(Direction, float) = 0;
 
-		//Handles non-keyboard events, like gravity:
-		virtual void handleEvents() = 0;
-
-		//Handles keyboard events:
-		virtual void handleKeyboardEvents(sf::Window&) = 0;
-
-		//Makes the character jump, or fall if they've jumped
-		//too high:
-		virtual void jump(float) = 0;
+		//Use the character's 'special' move:
+		virtual void special(float) = 0;
 
 		//Setters:
 		virtual void setFalling(bool) = 0;
+		virtual void jump() = 0;
 
 		//Getters:
 		short unsigned int getLives();

@@ -28,30 +28,30 @@
 #include <SFML/Graphics.hpp>
 
 //The background colour to set transparent:
-const int RED = 0;
-const int GREEN = 0;
-const int BLUE = 0;
+const int RED = 24;
+const int GREEN = 111;
+const int BLUE = 17;
 const sf::Color COLOUR_KEY = sf::Color(RED, GREEN, BLUE);
 
 //The collision types:
 enum Collision
 {
-	COLLISION_TOPLEFT,
-	COLLISION_TOPRIGHT,
-	COLLISION_BOTTOMLEFT,
-	COLLISION_BOTTOMRIGHT,
-	COLLISION_LEFT,
-	COLLISION_RIGHT,
-	COLLISION_TOP,
-	COLLISION_BOTTOM,
-	COLLISION_NONE,
+	TOPLEFT,
+	TOPRIGHT,
+	BOTTOMLEFT,
+	BOTTOMRIGHT,
+	LEFT,
+	RIGHT,
+	TOP,
+	BOTTOM,
+	NONE,
 };
 
 //Movement directions:
 enum Direction
 {
-	LEFT,
-	RIGHT,
+	DIRECTION_LEFT,
+	DIRECTION_RIGHT,
 };
 
 #endif
