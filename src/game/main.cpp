@@ -201,6 +201,7 @@ int main()
 		frameTime = fps.restart().asSeconds();
 	}
 	delete level;
+	delete player;
 	return 0;
 }
 
