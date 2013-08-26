@@ -34,4 +34,18 @@
 #include "emptyTile.h"
 #include "solidTile.h"
 
+namespace Tiles
+{
+	bool init()
+	{
+		if(! EmptyTile::init())
+			return false;
+
+		if(! SolidTile::init())
+			return false;
+
+		return true;
+	}
+}
+
 #endif

@@ -41,10 +41,7 @@ Level* level = NULL;
 int main()
 {
 	//Attempts to load the images:
-	if(! EmptyTile::init())
-		return -1;
-
-	if(! SolidTile::init())
+	if(! Tiles::init())
 		return -1;
 
 	if(! Banana::init())
