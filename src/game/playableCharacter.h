@@ -53,6 +53,9 @@ class PlayableCharacter : public Character
 		sf::Clock _specialClock;
 
 	public:
+		//Virtual destructor:
+		virtual ~PlayableCharacter() { }
+
 		//Moves the player in the specified direction,
 		//factoring in collisions with tiles, enemies and 
 		//projectiles:
