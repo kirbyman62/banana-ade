@@ -41,7 +41,10 @@ Level* level = NULL;
 int main()
 {
 	//Attempts to load the images:
-	if(! Tiles::init())
+	if(! SolidTile::init())
+		return -1;
+
+	if(! EmptyTile::init())
 		return -1;
 
 	if(! Banana::init())
@@ -68,16 +71,26 @@ int main()
 	window.setView(view);
 
 	//Creates the text:
-	sf::Text text;
-	text.setFont(font);
-	text.setColor(sf::Color::Black);
-	text.setCharacterSize(16);
-	text.setString("Average FPS:");
+	sf::Text fpsText;
+	fpsText.setFont(font);
+	fpsText.setColor(sf::Color::Black);
+	fpsText.setCharacterSize(16);
+	fpsText.setString("Average FPS:");
+
+	sf::Text livesText;
+	livesText.setFont(font);
+	livesText.setColor(sf::Color::Black);
+	livesText.setCharacterSize(16);
+	livesText.setString("Lives:");
 
 	//Position the text:
 	float textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
-	float textY = (view.getCenter().y - (view.getSize().y / 2)) + 35;	
-	text.setPosition(textX, textY);
+	float textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;	
+	fpsText.setPosition(textX, textY);
+
+	textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
+	textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
+	livesText.setPosition(textX, textY);
 
 	//Loads the level:
 	try
@@ -120,8 +133,12 @@ int main()
 
 				//Position the text:
 				textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
-				textY = (view.getCenter().y - (view.getSize().y / 2)) + 35;
-				text.setPosition(textX, textY);
+				textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
+				fpsText.setPosition(textX, textY);
+
+				textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
+				textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
+				livesText.setPosition(textX, textY);
 			}
 		}
 
@@ -141,8 +158,12 @@ int main()
 
 			//Position the text:
 			textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
-			textY = (view.getCenter().y - (view.getSize().y / 2)) + 35;
-			text.setPosition(textX, textY);
+			textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
+			fpsText.setPosition(textX, textY);
+
+			textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
+			textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
+			livesText.setPosition(textX, textY);
 		}
 
 		//Checks if the right key is pressed:
@@ -159,8 +180,12 @@ int main()
 
 			//Position the text:
 			textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
-			textY = (view.getCenter().y - (view.getSize().y / 2)) + 35;
-			text.setPosition(textX, textY);
+			textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
+			fpsText.setPosition(textX, textY);
+
+			textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
+			textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
+			livesText.setPosition(textX, textY);
 		}
 
 		//Checks if the space bar is pressed:
@@ -178,11 +203,19 @@ int main()
 		{
 			std::stringstream fps_sstream;
 			fps_sstream << "Average FPS: " << fps_f;
-			text.setString(fps_sstream.str());
+			fpsText.setString(fps_sstream.str());
+		}
+
+		//Write the lives:
+		{
+			std::stringstream lives_sstream;
+			lives_sstream << "Lives: " << player->getLives();
+			livesText.setString(lives_sstream.str());
 		}
 
 		//Draw the text:
-		window.draw(text);
+		window.draw(fpsText);
+		window.draw(livesText);
 
 		//Draw the player:
 		window.draw(player->getSprite());
