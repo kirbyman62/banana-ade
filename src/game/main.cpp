@@ -84,7 +84,7 @@ int main()
 	livesText.setString("Lives:");
 
 	//Position the text:
-	float textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
+	float textX = (view.getCenter().x + (view.getSize().x / 2)) - 220;
 	float textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;	
 	fpsText.setPosition(textX, textY);
 
@@ -132,7 +132,7 @@ int main()
 				window.setView(view);
 
 				//Position the text:
-				textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
+				textX = (view.getCenter().x + (view.getSize().x / 2)) - 220;
 				textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
 				fpsText.setPosition(textX, textY);
 
@@ -157,7 +157,7 @@ int main()
 			window.setView(view);
 
 			//Position the text:
-			textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
+			textX = (view.getCenter().x + (view.getSize().x / 2)) - 220;
 			textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
 			fpsText.setPosition(textX, textY);
 
@@ -179,7 +179,7 @@ int main()
 			window.setView(view);
 
 			//Position the text:
-			textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
+			textX = (view.getCenter().x + (view.getSize().x / 2)) - 220;
 			textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
 			fpsText.setPosition(textX, textY);
 
