@@ -64,6 +64,9 @@ class PlayableCharacter : public Character
 		//Use the character's 'special' move:
 		virtual void special(float) = 0;
 
+		//Subtracts a life:
+		void kill();
+
 		//Setters:
 		virtual void setFalling(bool) = 0;
 		virtual void jump() = 0;

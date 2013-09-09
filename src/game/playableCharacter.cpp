@@ -17,6 +17,11 @@
  */
 #include "playableCharacter.h"
 
+void PlayableCharacter::kill()
+{
+	_lives--;
+}
+
 short unsigned int PlayableCharacter::getLives()
 {
 	return _lives;

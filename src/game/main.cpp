@@ -84,7 +84,7 @@ int main()
 	livesText.setString("Lives:");
 
 	//Position the text:
-	float textX = (view.getCenter().x + (view.getSize().x / 2)) - 220;
+	float textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
 	float textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;	
 	fpsText.setPosition(textX, textY);
 
@@ -132,7 +132,7 @@ int main()
 				window.setView(view);
 
 				//Position the text:
-				textX = (view.getCenter().x + (view.getSize().x / 2)) - 220;
+				textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
 				textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
 				fpsText.setPosition(textX, textY);
 
@@ -157,7 +157,7 @@ int main()
 			window.setView(view);
 
 			//Position the text:
-			textX = (view.getCenter().x + (view.getSize().x / 2)) - 220;
+			textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
 			textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
 			fpsText.setPosition(textX, textY);
 
@@ -179,7 +179,7 @@ int main()
 			window.setView(view);
 
 			//Position the text:
-			textX = (view.getCenter().x + (view.getSize().x / 2)) - 220;
+			textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
 			textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
 			fpsText.setPosition(textX, textY);
 
@@ -191,6 +191,40 @@ int main()
 		//Checks if the space bar is pressed:
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 			player->jump();
+
+		//Check if the player is offscreen:
+		if(player->getSprite().getGlobalBounds().top > view.getSize().y)
+		{
+			//As long as the player has lives to lose:
+			if(player->getLives() > 0)
+			{
+				//Take off a life:
+				player->kill();
+
+				//Reposition the player:
+				player->getSprite().setPosition(400, 300);
+
+				//Reposition the view:
+				float centreX = player->getSprite().getGlobalBounds().left;
+				float centreY = (window.getSize().y / 2);
+				view.setCenter(centreX, centreY);
+				window.setView(view);
+
+				//Reposition the text (this needs to be a sub):
+				textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
+				textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
+				fpsText.setPosition(textX, textY);
+
+				textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
+				textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
+				livesText.setPosition(textX, textY);
+			}
+			else
+			{
+				std::cout << "Game over\n";
+				window.close();
+			}
+		}
 
 		//Clear the screen white:
 		window.clear(sf::Color::White);
