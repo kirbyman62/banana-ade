@@ -33,5 +33,6 @@
 
 #include "emptyTile.h"
 #include "solidTile.h"
+#include "coin.h"
 
 #endif

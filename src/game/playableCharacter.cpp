@@ -20,6 +20,12 @@
 void PlayableCharacter::kill()
 {
 	_lives--;
+	_score -= 50;
+}
+
+void PlayableCharacter::addScore(unsigned int score)
+{
+	_score += score;
 }
 
 short unsigned int PlayableCharacter::getLives()

@@ -39,6 +39,10 @@ class SolidTile : public Tile
 
 		//Constructor:
 		SolidTile(float, float);
+
+		//Event handlers:
+		void handleEvents() { }
+		void handleEvents(PlayableCharacter&) { }
 };
 
 #endif

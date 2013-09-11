@@ -15,7 +15,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Banana-ade.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include "character.h"
 
 //Returns the sprite (check the header, is this overkill?)

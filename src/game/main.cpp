@@ -47,6 +47,9 @@ int main()
 	if(! EmptyTile::init())
 		return -1;
 
+	if(! Coin::init())
+		return -1;
+
 	if(! Banana::init())
 		return -1;
 
@@ -83,6 +86,12 @@ int main()
 	livesText.setCharacterSize(16);
 	livesText.setString("Lives:");
 
+	sf::Text scoreText;
+	scoreText.setFont(font);
+	scoreText.setColor(sf::Color::Black);
+	scoreText.setCharacterSize(16);
+	scoreText.setString("Score:");
+
 	//Position the text:
 	float textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
 	float textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;	
@@ -91,6 +100,10 @@ int main()
 	textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
 	textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
 	livesText.setPosition(textX, textY);
+
+	textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
+	textY = (view.getCenter().y - (view.getSize().y / 2)) + 25;
+	scoreText.setPosition(textX, textY);
 
 	//Loads the level:
 	try
@@ -139,10 +152,21 @@ int main()
 				textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
 				textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
 				livesText.setPosition(textX, textY);
+
+				textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
+				textY = (view.getCenter().y - (view.getSize().y / 2)) + 25;
+				scoreText.setPosition(textX, textY);
 			}
 		}
 
 		player->handleEvents(frameTime);
+
+		//Handle the tile events:
+		for(unsigned int i = 0; i < level->getTiles().size(); i++)
+		{
+			level->getTiles()[i]->handleEvents();
+			level->getTiles()[i]->handleEvents(*player);
+		}
 
 		//Checks if the left key is pressed:
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -164,6 +188,10 @@ int main()
 			textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
 			textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
 			livesText.setPosition(textX, textY);
+
+			textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
+			textY = (view.getCenter().y - (view.getSize().y / 2)) + 25;
+			scoreText.setPosition(textX, textY);
 		}
 
 		//Checks if the right key is pressed:
@@ -186,6 +214,10 @@ int main()
 			textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
 			textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
 			livesText.setPosition(textX, textY);
+
+			textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
+			textY = (view.getCenter().y - (view.getSize().y / 2)) + 25;
+			scoreText.setPosition(textX, textY);
 		}
 
 		//Checks if the space bar is pressed:
@@ -218,6 +250,10 @@ int main()
 				textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
 				textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
 				livesText.setPosition(textX, textY);
+
+				textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
+				textY = (view.getCenter().y - (view.getSize().y / 2)) + 25;
+				scoreText.setPosition(textX, textY);
 			}
 			else
 			{
@@ -247,9 +283,17 @@ int main()
 			livesText.setString(lives_sstream.str());
 		}
 
+		//Write the score:
+		{
+			std::stringstream score_sstream;
+			score_sstream << "Score: " << player->getScore();
+			scoreText.setString(score_sstream.str());
+		}
+
 		//Draw the text:
 		window.draw(fpsText);
 		window.draw(livesText);
+		window.draw(scoreText);
 
 		//Draw the player:
 		window.draw(player->getSprite());

@@ -6,10 +6,10 @@ FLAGS=-Wall -c
 SDIR=src/game/
 ODIR=$(SDIR)obj/
 
-banana-ade: $(ODIR)main.o $(ODIR)level.o $(ODIR)tile.o $(ODIR)emptyTile.o $(ODIR)solidTile.o $(ODIR)character.o \
-			$(ODIR)playableCharacter.o $(ODIR)banana.o
+banana-ade: $(ODIR)main.o $(ODIR)level.o $(ODIR)tile.o $(ODIR)emptyTile.o $(ODIR)solidTile.o $(ODIR)coin.o\
+	 $(ODIR)character.o $(ODIR)playableCharacter.o $(ODIR)banana.o
 	$(CC) -o banana-ade $(ODIR)main.o $(ODIR)level.o $(ODIR)tile.o $(ODIR)emptyTile.o $(ODIR)solidTile.o \
-	$(ODIR)character.o $(ODIR)playableCharacter.o $(ODIR)banana.o $(LIBS)
+	$(ODIR)coin.o $(ODIR)character.o $(ODIR)playableCharacter.o $(ODIR)banana.o $(LIBS)
 
 $(ODIR)main.o: $(SDIR)main.cpp
 	$(CC) $(FLAGS) $(SDIR)main.cpp
@@ -42,6 +42,10 @@ $(ODIR)emptyTile.o: $(SDIR)emptyTile.cpp $(SDIR)emptyTile.h
 $(ODIR)solidTile.o: $(SDIR)solidTile.cpp $(SDIR)solidTile.h
 	$(CC) $(FLAGS) $(SDIR)solidTile.cpp
 	mv solidTile.o $(ODIR)
+
+$(ODIR)coin.o: $(SDIR)coin.cpp $(SDIR)coin.h
+	$(CC) $(FLAGS) $(SDIR)coin.cpp
+	mv coin.o $(ODIR)
 
 .PHONY: clean
 clean:

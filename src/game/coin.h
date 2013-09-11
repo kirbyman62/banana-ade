@@ -1,10 +1,9 @@
 // ---
-// emptyTile.h
+// coin.h
 //
-// Contains the class definition for an
-// empty tile, perhaps the most common
-// tile. It is completely transparent and
-// is not solid.
+// Contains the class definition for the coin,
+// a tile which gives the player points when
+// they come into contact with it.
 // ---
 
 /*
@@ -24,26 +23,29 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Banana-ade.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef EMPTY_TILE_H
-#define EMPTY_TILE_H
+#ifndef COIN_H
+#define COIN_H
 #include "tile.h"
 
-class EmptyTile : public Tile
+class Coin : public Tile
 {
 	private:
-		//The image of the tile:
-		static sf::Image _image;
+		//The coin's image:
+		static sf::Image _image;	
+
+		//Checks if the coin has already been acquired:
+		bool _isAcq;
 
 	public:
 		//Loads the image:
 		static bool init();
 
 		//Constructor:
-		EmptyTile(float, float);
+		Coin(float, float);
 
 		//Event handlers:
 		void handleEvents() { }
-		void handleEvents(PlayableCharacter&) { }
+		void handleEvents(PlayableCharacter&);
 };
 
 #endif

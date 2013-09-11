@@ -67,6 +67,9 @@ class PlayableCharacter : public Character
 		//Subtracts a life:
 		void kill();
 
+		//Adds to score:
+		void addScore(unsigned int);
+
 		//Setters:
 		virtual void setFalling(bool) = 0;
 		virtual void jump() = 0;

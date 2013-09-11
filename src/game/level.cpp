@@ -78,6 +78,7 @@ Level::Level(std::string filename)
 			{
 				case 0: tilePtr = new EmptyTile(x, y); break;
 				case 1: tilePtr = new SolidTile(x, y); break;
+				case 2: tilePtr = new Coin(x, y); break;
 				default: throw "Invalid Tile"; break;
 			}
 
