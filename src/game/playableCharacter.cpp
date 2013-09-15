@@ -20,7 +20,14 @@
 void PlayableCharacter::kill()
 {
 	_lives--;
-	_score -= 50;
+
+	if(_score >= 50)
+		_score -= 50;
+	else
+		_score = 0;
+
+	//Set the position to the last checkpoint, but for now we'll hardcode it:
+	_sprite.setPosition(400, 300);
 }
 
 void PlayableCharacter::addScore(unsigned int score)

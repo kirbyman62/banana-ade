@@ -1,11 +1,9 @@
 // ---
-// tiles.h
+// spike.h
 //
-// A header with the sole function
-// of including the numerous other
-// tile headers, as there will be
-// a lot and who can be bothered to
-// type it all out every time?
+// Contains the class definition for
+// a spike, a tile which kills the
+// player on contact.
 // ---
 
 /*
@@ -25,15 +23,26 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Banana-ade.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef TILES_H
-#define TILES_H
-
+#ifndef SPIKE_H
+#define SPIKE_H
 #include "tile.h"
 
-#include "emptyTile.h"
-#include "solidTile.h"
-#include "coin.h"
-#include "spike.h"
+class Spike : public Tile
+{
+	private:
+		//The image:
+		static sf::Image _image;
+
+	public:
+		//Loads the image:
+		static bool init();
+
+		//Constructor:
+		Spike(float, float);
+
+		//Event handlers:
+		void handleEvents() { }
+		void handleEvents(PlayableCharacter&); 
+};
 
 #endif

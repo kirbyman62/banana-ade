@@ -15,23 +15,22 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Banana-ade.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "coin.h"
-#include <string>
+#include "spike.h"
 
-sf::Image Coin::_image;
+sf::Image Spike::_image;
 
 //The path to the image:
 #ifdef _WIN32
-	const std::string image = "assets\\tiles\\coin.png";
+	const std::string image = "assets\\tiles\\spikes.png";
 #else
-	const std::string image = "assets/tiles/coin.png";
-#endif 
+	const std::string image = "assets/tiles/spikes.png";
+#endif
 
-bool Coin::init()
+bool Spike::init()
 {
 	//Loads the image from the file:
 	if(! _image.loadFromFile(image))
-		return false;	
+		return false;
 
 	//Remove the green for transparency:
 	_image.createMaskFromColor(COLOUR_KEY);
@@ -39,7 +38,7 @@ bool Coin::init()
 	return true;
 }
 
-Coin::Coin(float x, float y)
+Spike::Spike(float x, float y)
 {
 	//Loads the texture from the image:
 	if(! _texture.loadFromImage(_image))
@@ -52,24 +51,10 @@ Coin::Coin(float x, float y)
 
 	//Sets the sprite, and thus the tile's, postition:
 	_sprite.setPosition(x, y);
-
-	//The coin has not yet been acquired:
-	_isAcq = false;
 }
 
-void Coin::handleEvents(PlayableCharacter& player)
+void Spike::handleEvents(PlayableCharacter& player)
 {
-	//If the player collides with the coin:
-	if((player.checkCollision(_sprite) != NONE) && (! _isAcq))
-	{
-		//Increases the player's score:
-		player.addScore(100);
-
-		//Create a transparent image, as the coin has now dissapeared:
-		_image.create(TILE_WIDTH, TILE_HEIGHT, sf::Color::Transparent);
-		_texture.update(_image);
-
-		//The coin is now acquired:
-		_isAcq = true;
-	}
+	if(player.checkCollision(_sprite) != NONE)
+		player.kill();
 }

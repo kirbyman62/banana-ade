@@ -33,6 +33,9 @@
 	const std::string fontPath = "assets/fonts/Full-Dece-Sans-1.0.ttf";
 #endif
 
+bool initTiles();
+
+void positionUI(PlayableCharacter*, sf::RenderWindow&, sf::View&, sf::Text[]);
 float getAverageFPS(float);
 
 //The current level, global so the player can get data from it:
@@ -40,14 +43,7 @@ Level* level = NULL;
 
 int main()
 {
-	//Attempts to load the images:
-	if(! SolidTile::init())
-		return -1;
-
-	if(! EmptyTile::init())
-		return -1;
-
-	if(! Coin::init())
+	if(! initTiles())
 		return -1;
 
 	if(! Banana::init())
@@ -74,36 +70,24 @@ int main()
 	window.setView(view);
 
 	//Creates the text:
-	sf::Text fpsText;
-	fpsText.setFont(font);
-	fpsText.setColor(sf::Color::Black);
-	fpsText.setCharacterSize(16);
-	fpsText.setString("Average FPS:");
+	sf::Text text[3];
+	text[0].setFont(font);
+	text[0].setColor(sf::Color::Black);
+	text[0].setCharacterSize(16);
+	text[0].setString("Average FPS:");
 
-	sf::Text livesText;
-	livesText.setFont(font);
-	livesText.setColor(sf::Color::Black);
-	livesText.setCharacterSize(16);
-	livesText.setString("Lives:");
+	text[1].setFont(font);
+	text[1].setColor(sf::Color::Black);
+	text[1].setCharacterSize(16);
+	text[1].setString("Lives:");
 
-	sf::Text scoreText;
-	scoreText.setFont(font);
-	scoreText.setColor(sf::Color::Black);
-	scoreText.setCharacterSize(16);
-	scoreText.setString("Score:");
+	text[2].setFont(font);
+	text[2].setColor(sf::Color::Black);
+	text[2].setCharacterSize(16);
+	text[2].setString("Score:");
 
-	//Position the text:
-	float textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
-	float textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;	
-	fpsText.setPosition(textX, textY);
-
-	textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
-	textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
-	livesText.setPosition(textX, textY);
-
-	textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
-	textY = (view.getCenter().y - (view.getSize().y / 2)) + 25;
-	scoreText.setPosition(textX, textY);
+	//Position the UI:
+	positionUI(player, window, view, text);
 
 	//Loads the level:
 	try
@@ -143,19 +127,6 @@ int main()
 				//Resize the view:
 				view.setSize(event.size.width, event.size.height);
 				window.setView(view);
-
-				//Position the text:
-				textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
-				textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
-				fpsText.setPosition(textX, textY);
-
-				textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
-				textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
-				livesText.setPosition(textX, textY);
-
-				textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
-				textY = (view.getCenter().y - (view.getSize().y / 2)) + 25;
-				scoreText.setPosition(textX, textY);
 			}
 		}
 
@@ -170,55 +141,11 @@ int main()
 
 		//Checks if the left key is pressed:
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		{
-			//Move the player left:
 			player->move(DIRECTION_LEFT, frameTime);
-
-			//Moves the view to the player:
-			float centreX = player->getSprite().getGlobalBounds().left;
-			float centreY = (window.getSize().y / 2);
-			view.setCenter(centreX, centreY);
-			window.setView(view);
-
-			//Position the text:
-			textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
-			textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
-			fpsText.setPosition(textX, textY);
-
-			textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
-			textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
-			livesText.setPosition(textX, textY);
-
-			textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
-			textY = (view.getCenter().y - (view.getSize().y / 2)) + 25;
-			scoreText.setPosition(textX, textY);
-		}
 
 		//Checks if the right key is pressed:
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		{
-			//Move the player right:
 			player->move(DIRECTION_RIGHT, frameTime);
-
-			//Moves the view to the player:
-			float centreX = player->getSprite().getGlobalBounds().left;
-			float centreY = (window.getSize().y / 2);
-			view.setCenter(centreX, centreY);
-			window.setView(view);
-
-			//Position the text:
-			textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
-			textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
-			fpsText.setPosition(textX, textY);
-
-			textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
-			textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
-			livesText.setPosition(textX, textY);
-
-			textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
-			textY = (view.getCenter().y - (view.getSize().y / 2)) + 25;
-			scoreText.setPosition(textX, textY);
-		}
 
 		//Checks if the space bar is pressed:
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
@@ -226,40 +153,13 @@ int main()
 
 		//Check if the player is offscreen:
 		if(player->getSprite().getGlobalBounds().top > view.getSize().y)
+			player->kill();
+
+		//Checks if the player has lost all of their lives:
+		if(player->getLives() <= 0)
 		{
-			//As long as the player has lives to lose:
-			if(player->getLives() > 0)
-			{
-				//Take off a life:
-				player->kill();
-
-				//Reposition the player:
-				player->getSprite().setPosition(400, 300);
-
-				//Reposition the view:
-				float centreX = player->getSprite().getGlobalBounds().left;
-				float centreY = (window.getSize().y / 2);
-				view.setCenter(centreX, centreY);
-				window.setView(view);
-
-				//Reposition the text (this needs to be a sub):
-				textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
-				textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
-				fpsText.setPosition(textX, textY);
-
-				textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
-				textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
-				livesText.setPosition(textX, textY);
-
-				textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
-				textY = (view.getCenter().y - (view.getSize().y / 2)) + 25;
-				scoreText.setPosition(textX, textY);
-			}
-			else
-			{
-				std::cout << "Game over\n";
-				window.close();
-			}
+			std::cout << "Game Over!\n";
+			window.close();
 		}
 
 		//Clear the screen white:
@@ -273,27 +173,30 @@ int main()
 		{
 			std::stringstream fps_sstream;
 			fps_sstream << "Average FPS: " << fps_f;
-			fpsText.setString(fps_sstream.str());
+			text[0].setString(fps_sstream.str());
 		}
 
 		//Write the lives:
 		{
 			std::stringstream lives_sstream;
 			lives_sstream << "Lives: " << player->getLives();
-			livesText.setString(lives_sstream.str());
+			text[1].setString(lives_sstream.str());
 		}
 
 		//Write the score:
 		{
 			std::stringstream score_sstream;
 			score_sstream << "Score: " << player->getScore();
-			scoreText.setString(score_sstream.str());
+			text[2].setString(score_sstream.str());
 		}
 
 		//Draw the text:
-		window.draw(fpsText);
-		window.draw(livesText);
-		window.draw(scoreText);
+		window.draw(text[0]);
+		window.draw(text[1]);
+		window.draw(text[2]);
+
+		//Position the UI:
+		positionUI(player, window, view, text);
 
 		//Draw the player:
 		window.draw(player->getSprite());
@@ -311,6 +214,46 @@ int main()
 	delete level;
 	delete player;
 	return 0;
+}
+
+bool initTiles()
+{
+	//Attempts to load the images:
+	if(! SolidTile::init())
+		return false;
+
+	if(! EmptyTile::init())
+		return false;
+
+	if(! Coin::init())
+		return false;
+
+	if(! Spike::init())
+		return false;
+
+	return true;
+}
+
+void positionUI(PlayableCharacter* player, sf::RenderWindow& window, sf::View& view, sf::Text text[])
+{
+	//Reposition the view:
+	float centreX = player->getSprite().getGlobalBounds().left;	
+	float centreY = (window.getSize().y / 2);
+	view.setCenter(centreX, centreY);
+	window.setView(view);
+
+	//Reposition the text:
+	float textX = (view.getCenter().x + (view.getSize().x / 2)) - 200;
+	float textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
+	text[0].setPosition(textX, textY);	
+
+	textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
+	textY = (view.getCenter().y - (view.getSize().y / 2)) + 5;
+	text[1].setPosition(textX, textY);
+
+	textX = (view.getCenter().x - (view.getSize().x / 2)) + 5;
+	textY = (view.getCenter().y - (view.getSize().y / 2)) + 25;
+	text[2].setPosition(textX, textY);
 }
 
 float getAverageFPS(float time)
