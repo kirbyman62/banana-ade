@@ -26,6 +26,7 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 #include <SFML/Graphics.hpp>
+#include <string>
 
 //The background colour to set transparent:
 const int RED = 24;
@@ -52,6 +53,15 @@ enum Direction
 {
 	DIRECTION_LEFT,
 	DIRECTION_RIGHT,
+	DIRECTION_UP,
+	DIRECTION_DOWN,
 };
+
+//The fonts used:
+#ifdef _WIN32
+	const std::string FULL_DECE_SANS = "assets\\fonts\\Full-Dece-Sans-1.0.ttf";
+#else
+	const std::string FULL_DECE_SANS = "assets/fonts/Full-Dece-Sans-1.0.ttf";
+#endif
 
 #endif

@@ -51,7 +51,7 @@ int main()
 
 	//Loads the font:
 	sf::Font font;
-	if(! font.loadFromFile(fontPath))
+	if(! font.loadFromFile(FULL_DECE_SANS))
 		return -1;
 
 	//Creates a window:
