@@ -51,6 +51,14 @@ $(ODIR)spike.o: $(SDIR)spike.cpp $(SDIR)spike.h
 	$(CC) $(FLAGS) $(SDIR)spike.cpp
 	mv spike.o $(ODIR)
 
+$(ODIR)menuItem.o: $(SDIR)menuItem.cpp $(SDIR)menuItem.h	
+	$(CC) $(FLAGS) $(SDIR)menuItem.cpp
+	mv menuItem.o $(ODIR)
+
+$(ODIR)menu.o: $(SDIR)menu.cpp $(SDIR)menu.h	
+	$(CC) $(FLAGS) $(SDIR)menu.cpp
+	mv menu.o $(ODIR)
+
 .PHONY: clean
 clean:
 	rm $(ODIR)*.o
