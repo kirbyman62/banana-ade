@@ -49,8 +49,6 @@ Level* level = NULL;
 //item knows where to go back to:
 std::vector <Menu*> menuStack;
 
-void hi() { std::cout << "hi\n"; }
-
 int main()
 {
 	if(! initTiles())
@@ -67,15 +65,6 @@ int main()
 
 	//Initialise the menu stack:
 	menuStack.push_back(NULL);
-
-	//MENU TESTING STUFF
-	MenuItem* back = new MenuItem("Back", Menu::back);
-	MenuItem* hii = new MenuItem("hi", hi);
-	std::vector <MenuItem*> oneitem;
-	oneitem.push_back(back);
-	oneitem.push_back(hii);
-	Menu* test = new Menu(oneitem);
-	menuStack.push_back(test);
 
 	//Loads the font:
 	sf::Font font;
@@ -157,34 +146,6 @@ int main()
 				window.setView(view);
 			}
 		}
-
-		//MORE TEST STUFF
-		while(menuStack.back() != NULL)
-		{
-			//Clear the screen white:
-			window.clear(sf::Color::White);
-
-			//Position the menu:
-			menuStack.back()->position(view);
-
-			//Draw the sprite:
-			window.draw(menuStack.back()->getSprite());
-
-			for(unsigned int i = 0; i < menuStack.back()->getItems().size(); i++)
-				window.draw(menuStack.back()->getItems()[i]->getText());
-
-			window.display();
-
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
-				menuStack.back()->execute();
-			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-				menuStack.back()->moveSelection(DIRECTION_UP);
-			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-				menuStack.back()->moveSelection(DIRECTION_DOWN);
-		}
-
-		if(menuStack.back() != NULL)
-			delete test;
 
 		player->handleEvents(frameTime);
 
