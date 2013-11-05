@@ -32,19 +32,31 @@
 #include <string>
 
 //The number of images to load:
-const int IMAGES = 1;
+const int IMAGES = 5;
 
 //If compiling on Windows, use backslashes for the file path:
 #ifdef _WIN32
 	const std::string STATIONARY_IMAGE = "assets\\test-stationary.png";
+	const std::string MOVE1_IMAGE = "assets\\test-move1.png";
+	const std::string MOVE2_IMAGE = "assets\\test-move2.png";
+	const std::string MOVE3_IMAGE = "assets\\test-move3.png";
+	const std::string JUMP_IMAGE = "assets\\test-jump.png";
 #else
 	const std::string STATIONARY_IMAGE = "assets/test-stationary.png";
+	const std::string MOVE1_IMAGE = "assets/test-move1.png";
+	const std::string MOVE2_IMAGE = "assets/test-move2.png";
+	const std::string MOVE3_IMAGE = "assets/test-move3.png";
+	const std::string JUMP_IMAGE = "assets/test-jump.png";
 #endif
 
 //The various labels for the images:
 enum
 {
-	STATIONARY
+	STATIONARY,
+	MOVE1,
+	MOVE2,
+	MOVE3,
+	JUMP,
 };
 
 //The maximum jump height:
@@ -71,6 +83,9 @@ class Banana : public PlayableCharacter
 		//factoring in collisions with tiles, enemies and 
 		//projectiles:
 		void move(Direction, float);
+
+		//Sets the stationary image:
+		void stationary();
 
 		//Use the character's 'special' move:
 		void special(float);

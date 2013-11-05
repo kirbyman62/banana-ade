@@ -155,8 +155,12 @@ int main()
 			player->move(DIRECTION_LEFT, frameTime);
 
 		//Checks if the right key is pressed:
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			player->move(DIRECTION_RIGHT, frameTime);
+
+		//If none are pressed, the player isn't moving, so set the image:
+		else
+			player->stationary();
 
 		//Checks if the space bar is pressed:
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))

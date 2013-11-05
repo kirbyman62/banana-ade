@@ -105,3 +105,16 @@ Collision Character::checkCollision(sf::Window& window) const
 	//Otherwise there is no collision:
 	return NONE;
 }
+
+//Flips the character's sprite to face the passed direction:
+void Character::flip(Direction d)
+{
+	sf::IntRect rect = _sprite.getTextureRect();
+	if(d != _direction)
+	{
+		rect.left += rect.width;
+		rect.width = -rect.width;
+	}
+	_sprite.setTextureRect(rect);
+	_direction = d;
+}

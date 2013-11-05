@@ -36,6 +36,18 @@ bool Banana::init()
 	if(! _images[STATIONARY].loadFromFile(STATIONARY_IMAGE))
 		return false;
 
+	if(! _images[MOVE1].loadFromFile(MOVE1_IMAGE))
+		return false;
+
+	if(! _images[MOVE2].loadFromFile(MOVE2_IMAGE))
+		return false;
+
+	if(! _images[MOVE3].loadFromFile(MOVE3_IMAGE))
+		return false;
+
+	if(! _images[JUMP].loadFromFile(JUMP_IMAGE))
+		return false;
+
 	//Sets the colour key transparent on all loaded images:
 	for(int i = 0; i < IMAGES; i++)
 		_images[i].createMaskFromColor(COLOUR_KEY);
@@ -56,6 +68,8 @@ Banana::Banana(short unsigned int lives, unsigned int score)
 
 	//Set the default co-ordinates (not final):
 	_sprite.setPosition(400, 300);
+
+	_direction = DIRECTION_RIGHT;
 }
 
 //Moves the Banana in the specified direction:
@@ -64,7 +78,7 @@ void Banana::move(Direction direction, float frameTime)
 	Collision collision = NONE;
 
 	//If the player isn't jumping or falling, set the image:
-	/*if((! _isFalling) && (! _isJumping))
+	if((! _isFalling) && (! _isJumping))
 	{
 		if(_frameClock.getElapsedTime().asSeconds() > 0.25)
 		{
@@ -72,20 +86,23 @@ void Banana::move(Direction direction, float frameTime)
 			if(_frame > 3)
 				_frame = 1;
 			
-			switch(frame)
+			switch(_frame)
 			{
 				case 1: _texture.update(_images[MOVE1]); break;
 				case 2: _texture.update(_images[MOVE2]); break;
 				case 3: _texture.update(_images[MOVE3]); break;
 			}
-			_frameClock.reset();
+			_frameClock.restart();
 		}
 	}
 	else
-		_frame = 0;*/
+		_frame = 0;
 
 	if(direction == DIRECTION_LEFT)
 	{
+		//Face left:
+		flip(DIRECTION_LEFT);
+
 		//Move left:
 		_sprite.move((-X_VELOCITY * frameTime), 0);
 
@@ -105,6 +122,9 @@ void Banana::move(Direction direction, float frameTime)
 	}
 	if(direction == DIRECTION_RIGHT)
 	{
+		//Face right:
+		flip(DIRECTION_RIGHT);
+
 		//Move left:
 		_sprite.move((X_VELOCITY * frameTime), 0);
 
@@ -122,6 +142,13 @@ void Banana::move(Direction direction, float frameTime)
 			}
 		}
 	}
+}
+
+void Banana::stationary()
+{
+	//If the player isn't jumping or falling, set the image:
+	if((! _isFalling) && (! _isJumping))
+		_texture.update(_images[STATIONARY]);
 }
 
 void Banana::special(float frameTime)
@@ -194,6 +221,9 @@ void Banana::handleEvents(float frameTime)
 					_sprite.getGlobalBounds().height;
 					_sprite.setPosition(_sprite.getGlobalBounds().left, top);
 
+					//Set the image:
+					_texture.update(_images[STATIONARY]);
+
 					break;
 				}
 			}
@@ -225,7 +255,7 @@ void Banana::jump()
 	if(! _isFalling)
 	{
 		_isJumping = true;
-		//set image
+		_texture.update(_images[JUMP]);
 	}
 } 
 
@@ -236,5 +266,5 @@ void Banana::setFalling(bool isFalling)
 	if(_isFalling)
 		_isJumping = false;
 
-	//set image
+	_texture.update(_images[JUMP]);
 }

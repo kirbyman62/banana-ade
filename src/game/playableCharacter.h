@@ -61,6 +61,9 @@ class PlayableCharacter : public Character
 		//projectiles:
 		virtual void move(Direction, float) = 0;
 
+		//Set the stationary image:
+		virtual void stationary() = 0;
+
 		//Use the character's 'special' move:
 		virtual void special(float) = 0;
 
