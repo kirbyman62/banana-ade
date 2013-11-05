@@ -12,5 +12,8 @@
 *.la
 *.a
 
+# The binary:
+banana-ade
+
 # Vim swap files
 *.swp
