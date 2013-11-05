@@ -29,11 +29,7 @@
 #include <string>
 #include "constants.h"
 
-#ifdef _WIN32
-	const std::string MENU_FONT = "assets\\fonts\\Full-Dece-Sans-1.0.ttf";
-#else
-	const std::string MENU_FONT = "assets/fonts/Full-Dece-Sans-1.0.ttf";
-#endif 
+const std::string MENU_FONT = FULL_DECE_SANS;
 
 class MenuItem
 {

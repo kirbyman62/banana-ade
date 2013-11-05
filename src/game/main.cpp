@@ -31,12 +31,6 @@
 #include "menu.h"
 #include "menuItem.h"
 
-#ifdef _WIN32
-	const std::string fontPath = "assets\\fonts\\Full-Dece-Sans-1.0.ttf";
-#else
-	const std::string fontPath = "assets/fonts/Full-Dece-Sans-1.0.ttf";
-#endif
-
 bool initTiles();
 
 void positionUI(PlayableCharacter*, sf::RenderWindow&, sf::View&, sf::Text[]);
