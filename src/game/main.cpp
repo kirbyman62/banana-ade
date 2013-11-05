@@ -216,9 +216,6 @@ int main()
 		for(unsigned int i = 0; i < level->getTiles().size(); i++)
 			window.draw(level->getTiles()[i]->getSprite());
 
-		//Draw the menu text:
-//		window.draw(menuStack.back()->getItems()[0]->getText());
-
 		//Display the window:
 		window.display();
 
@@ -227,7 +224,6 @@ int main()
 	}
 	delete level;
 	delete player;
-//	delete test;
 	return 0;
 }
 
