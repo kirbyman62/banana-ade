@@ -70,6 +70,9 @@ class Menu
 		//Executes the selected option:
 		void execute();
 
+		//Reposition:
+		void position(sf::View&);
+
 		//Getters:
 		sf::Sprite getSprite();
 		std::vector <MenuItem*>& getItems();
@@ -77,9 +80,5 @@ class Menu
 		//Moves the menu back a stage:
 		static void back();
 };
-
-//The menu stack, needed mostly so the 'Back'
-//item knows where to go back to:
-std::vector <Menu*> menuStack;
 
 #endif

@@ -7,9 +7,10 @@ SDIR=src/game/
 ODIR=$(SDIR)obj/
 
 banana-ade: $(ODIR)main.o $(ODIR)level.o $(ODIR)tile.o $(ODIR)emptyTile.o $(ODIR)solidTile.o $(ODIR)coin.o\
-	 $(ODIR)spike.o $(ODIR)character.o $(ODIR)playableCharacter.o $(ODIR)banana.o
+	 $(ODIR)spike.o $(ODIR)character.o $(ODIR)playableCharacter.o $(ODIR)banana.o $(ODIR)menu.o $(ODIR)menuItem.o
 	$(CC) -o banana-ade $(ODIR)main.o $(ODIR)level.o $(ODIR)tile.o $(ODIR)emptyTile.o $(ODIR)solidTile.o \
-	$(ODIR)coin.o $(ODIR)spike.o $(ODIR)character.o $(ODIR)playableCharacter.o $(ODIR)banana.o $(LIBS)
+	$(ODIR)coin.o $(ODIR)spike.o $(ODIR)character.o $(ODIR)playableCharacter.o $(ODIR)banana.o $(ODIR)menu.o \
+	$(ODIR)menuItem.o $(LIBS)
 
 $(ODIR)main.o: $(SDIR)main.cpp
 	$(CC) $(FLAGS) $(SDIR)main.cpp

@@ -19,6 +19,15 @@
 
 sf::Image Menu::_image;
 
+//The margin around the background:
+const unsigned int MARGIN = 10;
+
+//The spacing between the text items:
+const unsigned int SPACING = 3;
+
+//The menu stack:
+extern std::vector <Menu*> menuStack;
+
 bool Menu::init()
 {
 	//Loads the files:
@@ -35,6 +44,37 @@ Menu::Menu(std::vector <MenuItem*>& items)
 {
 	_items = items;
 	_selection = 0;
+
+	_texture.loadFromImage(_image);
+	_sprite.setTexture(_texture);
+	
+	//Gets the required data to calculate the transformation.
+	//This assumes all the MenuItems have the same character size:
+	sf::FloatRect size = _sprite.getGlobalBounds();
+	_sprite.setOrigin((size.height / 2), (size.width / 2));
+	unsigned int characterSize = _items[0]->getText().getCharacterSize();
+	unsigned int numberOfItems = _items.size();
+	unsigned int longestItem = 0;
+	for(unsigned int i = 0; i < _items.size(); i++)
+		if(_items[i]->getText().getString().getSize() > longestItem)
+			longestItem = _items[i]->getText().getString().getSize();
+
+	//Calculates the required scale factor:
+	unsigned int height = ((2 * MARGIN) + (numberOfItems * (characterSize + SPACING)));
+	unsigned int width = ((2 * MARGIN) + (longestItem * characterSize));
+	float scaleFactorX = width / size.height;
+	float scaleFactorY = height / size.width;
+
+	_sprite.scale(scaleFactorX, scaleFactorY);
+
+	//Sets the position of the MenuItems:
+	float x = _sprite.getGlobalBounds().left + MARGIN;
+	float y = _sprite.getGlobalBounds().top + MARGIN;
+	for(unsigned int i = 0; i < _items.size(); i++)
+	{
+		_items[i]->position(x, y);
+		y += (SPACING + characterSize);
+	}
 }
 
 Menu::~Menu()
@@ -50,7 +90,7 @@ void Menu::moveSelection(Direction d)
 	switch(d)
 	{
 		case DIRECTION_UP:   if(_selection > 0) _selection--; break;
-		case DIRECTION_DOWN: if(_selection < _items.size()) _selection++; break;
+		case DIRECTION_DOWN: if(_selection < (_items.size() - 1)) _selection++; break;
 		default: throw "Error!"; break;
 	}
 }
@@ -58,6 +98,23 @@ void Menu::moveSelection(Direction d)
 void Menu::execute()
 {
 	_items[_selection]->execute();
+}
+
+void Menu::position(sf::View& view)
+{
+	//Positions the background:
+	_sprite.setPosition(view.getCenter());
+
+	unsigned int characterSize = _items[0]->getText().getCharacterSize();
+
+	//Sets the position of the MenuItems:
+	unsigned int x = _sprite.getGlobalBounds().left + MARGIN;
+	unsigned int y = _sprite.getGlobalBounds().top + MARGIN;
+	for(unsigned int i = 0; i < _items.size(); i++)
+	{
+		_items[i]->position(x, y);
+		y += (SPACING + characterSize);
+	}
 }
 
 sf::Sprite Menu::getSprite()

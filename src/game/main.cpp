@@ -18,6 +18,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <vector>
 #include <SFML/Graphics.hpp>
 
 #include "character.h"
@@ -26,6 +27,9 @@
 
 #include "level.h"
 #include "tiles.h"
+
+#include "menu.h"
+#include "menuItem.h"
 
 #ifdef _WIN32
 	const std::string fontPath = "assets\\fonts\\Full-Dece-Sans-1.0.ttf";
@@ -41,6 +45,12 @@ float getAverageFPS(float);
 //The current level, global so the player can get data from it:
 Level* level = NULL;
 
+//The menu stack, needed mostly so the 'Back'
+//item knows where to go back to:
+std::vector <Menu*> menuStack;
+
+void hi() { std::cout << "hi\n"; }
+
 int main()
 {
 	if(! initTiles())
@@ -48,6 +58,24 @@ int main()
 
 	if(! Banana::init())
 		return -1;
+
+	if(! MenuItem::init())
+		return -1;
+
+	if(! Menu::init())
+		return -1;
+
+	//Initialise the menu stack:
+	menuStack.push_back(NULL);
+
+	//MENU TESTING STUFF
+	MenuItem* back = new MenuItem("Back", Menu::back);
+	MenuItem* hii = new MenuItem("hi", hi);
+	std::vector <MenuItem*> oneitem;
+	oneitem.push_back(back);
+	oneitem.push_back(hii);
+	Menu* test = new Menu(oneitem);
+	menuStack.push_back(test);
 
 	//Loads the font:
 	sf::Font font;
@@ -130,6 +158,34 @@ int main()
 			}
 		}
 
+		//MORE TEST STUFF
+		while(menuStack.back() != NULL)
+		{
+			//Clear the screen white:
+			window.clear(sf::Color::White);
+
+			//Position the menu:
+			menuStack.back()->position(view);
+
+			//Draw the sprite:
+			window.draw(menuStack.back()->getSprite());
+
+			for(unsigned int i = 0; i < menuStack.back()->getItems().size(); i++)
+				window.draw(menuStack.back()->getItems()[i]->getText());
+
+			window.display();
+
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+				menuStack.back()->execute();
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+				menuStack.back()->moveSelection(DIRECTION_UP);
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+				menuStack.back()->moveSelection(DIRECTION_DOWN);
+		}
+
+		if(menuStack.back() != NULL)
+			delete test;
+
 		player->handleEvents(frameTime);
 
 		//Handle the tile events:
@@ -205,6 +261,9 @@ int main()
 		for(unsigned int i = 0; i < level->getTiles().size(); i++)
 			window.draw(level->getTiles()[i]->getSprite());
 
+		//Draw the menu text:
+//		window.draw(menuStack.back()->getItems()[0]->getText());
+
 		//Display the window:
 		window.display();
 
@@ -213,6 +272,7 @@ int main()
 	}
 	delete level;
 	delete player;
+//	delete test;
 	return 0;
 }
 

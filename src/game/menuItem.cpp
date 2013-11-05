@@ -32,9 +32,9 @@ MenuItem::MenuItem(std::string text, void (*func)())
 {
 	//Initialises the text:
 	_text.setFont(_font);
-	_text.setString(text);
 	_text.setColor(sf::Color::Black);
-	_text.setCharacterSize(16);
+	_text.setCharacterSize(72);
+	_text.setString(text);
 
 	_func = func;
 }
