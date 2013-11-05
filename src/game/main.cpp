@@ -18,6 +18,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <vector>
 #include <SFML/Graphics.hpp>
 
 #include "character.h"
@@ -26,6 +27,9 @@
 
 #include "level.h"
 #include "tiles.h"
+
+#include "menu.h"
+#include "menuItem.h"
 
 #ifdef _WIN32
 	const std::string fontPath = "assets\\fonts\\Full-Dece-Sans-1.0.ttf";
@@ -41,6 +45,10 @@ float getAverageFPS(float);
 //The current level, global so the player can get data from it:
 Level* level = NULL;
 
+//The menu stack, needed mostly so the 'Back'
+//item knows where to go back to:
+std::vector <Menu*> menuStack;
+
 int main()
 {
 	if(! initTiles())
@@ -48,6 +56,15 @@ int main()
 
 	if(! Banana::init())
 		return -1;
+
+	if(! MenuItem::init())
+		return -1;
+
+	if(! Menu::init())
+		return -1;
+
+	//Initialise the menu stack:
+	menuStack.push_back(NULL);
 
 	//Loads the font:
 	sf::Font font;
@@ -205,6 +222,9 @@ int main()
 		for(unsigned int i = 0; i < level->getTiles().size(); i++)
 			window.draw(level->getTiles()[i]->getSprite());
 
+		//Draw the menu text:
+//		window.draw(menuStack.back()->getItems()[0]->getText());
+
 		//Display the window:
 		window.display();
 
@@ -213,6 +233,7 @@ int main()
 	}
 	delete level;
 	delete player;
+//	delete test;
 	return 0;
 }
 

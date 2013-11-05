@@ -7,9 +7,10 @@ SDIR=src/game/
 ODIR=$(SDIR)obj/
 
 banana-ade: $(ODIR)main.o $(ODIR)level.o $(ODIR)tile.o $(ODIR)emptyTile.o $(ODIR)solidTile.o $(ODIR)coin.o\
-	 $(ODIR)spike.o $(ODIR)character.o $(ODIR)playableCharacter.o $(ODIR)banana.o
+	 $(ODIR)spike.o $(ODIR)character.o $(ODIR)playableCharacter.o $(ODIR)banana.o $(ODIR)menu.o $(ODIR)menuItem.o
 	$(CC) -o banana-ade $(ODIR)main.o $(ODIR)level.o $(ODIR)tile.o $(ODIR)emptyTile.o $(ODIR)solidTile.o \
-	$(ODIR)coin.o $(ODIR)spike.o $(ODIR)character.o $(ODIR)playableCharacter.o $(ODIR)banana.o $(LIBS)
+	$(ODIR)coin.o $(ODIR)spike.o $(ODIR)character.o $(ODIR)playableCharacter.o $(ODIR)banana.o $(ODIR)menu.o \
+	$(ODIR)menuItem.o $(LIBS)
 
 $(ODIR)main.o: $(SDIR)main.cpp
 	$(CC) $(FLAGS) $(SDIR)main.cpp
@@ -50,6 +51,14 @@ $(ODIR)coin.o: $(SDIR)coin.cpp $(SDIR)coin.h
 $(ODIR)spike.o: $(SDIR)spike.cpp $(SDIR)spike.h
 	$(CC) $(FLAGS) $(SDIR)spike.cpp
 	mv spike.o $(ODIR)
+
+$(ODIR)menuItem.o: $(SDIR)menuItem.cpp $(SDIR)menuItem.h	
+	$(CC) $(FLAGS) $(SDIR)menuItem.cpp
+	mv menuItem.o $(ODIR)
+
+$(ODIR)menu.o: $(SDIR)menu.cpp $(SDIR)menu.h	
+	$(CC) $(FLAGS) $(SDIR)menu.cpp
+	mv menu.o $(ODIR)
 
 .PHONY: clean
 clean:
