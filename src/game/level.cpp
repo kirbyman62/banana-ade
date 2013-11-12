@@ -91,6 +91,7 @@ Level::Level(std::string filename)
 		j = 0;
 		i++;
 		reader.ignore(1, '\n');
+		_lowestTileYPosition = TILE_HEIGHT * i;
 	}
 	reader.close();
 }
@@ -121,4 +122,9 @@ std::string& Level::getAuthor()
 std::vector <Tile*>& Level::getTiles()
 {
 	return _tiles;
+}
+
+float Level::getLowestTilePos()
+{
+	return _lowestTileYPosition;
 }

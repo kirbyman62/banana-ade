@@ -74,12 +74,6 @@ int main()
 	//The player:
 	PlayableCharacter* player = new Banana(3, 0);
 			
-	//Moves the view to the player:
-	float centreX = player->getSprite().getGlobalBounds().left;
-	float centreY = (window.getSize().y / 2);
-	view.setCenter(centreX, centreY);
-	window.setView(view);
-
 	//Creates the text:
 	sf::Text text[3];
 	text[0].setFont(font);
@@ -97,9 +91,6 @@ int main()
 	text[2].setCharacterSize(16);
 	text[2].setString("Score:");
 
-	//Position the UI:
-	positionUI(player, window, view, text);
-
 	//Loads the level:
 	try
 	{
@@ -110,6 +101,9 @@ int main()
 		std::cerr << e << std::endl;
 		return -1;
 	}
+
+	//Position the UI:
+	positionUI(player, window, view, text);
 
 	//Output the level's metadata:
 	std::cout << "Name: " << level->getName() << std::endl;
@@ -253,8 +247,7 @@ void positionUI(PlayableCharacter* player, sf::RenderWindow& window, sf::View& v
 {
 	//Reposition the view:
 	float centreX = player->getSprite().getGlobalBounds().left;	
-	float centreY = (window.getSize().y / 2);
-//	float centreY = view.getCenter().y + ((window.getSize().y - view.getCenter().y) / 2);
+	float centreY = ((level->getLowestTilePos() + TILE_HEIGHT + 10) - (view.getSize().y / 2));
 	view.setCenter(centreX, centreY);
 	window.setView(view);
 

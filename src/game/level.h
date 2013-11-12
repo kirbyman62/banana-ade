@@ -52,6 +52,9 @@ class Level
 		//The current view, which requires access to these lists:
 		//friend class CurrentView;
 
+		//The position of the lowest tile, used for
+		//positioning the camera:
+		float _lowestTileYPosition;
 	public:
 		//Constructor:
 		Level(std::string);
@@ -63,6 +66,7 @@ class Level
 		std::string& getName();
 		std::string& getAuthor();
 		std::vector <Tile*>& getTiles();
+		float getLowestTilePos();
 };
 
 #endif
