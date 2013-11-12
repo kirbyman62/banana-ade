@@ -167,7 +167,7 @@ int main()
 			player->jump();
 
 		//Check if the player is offscreen:
-		if(player->getSprite().getGlobalBounds().top > (view.getSize().y * 2))
+		if(player->getSprite().getGlobalBounds().top > view.getSize().y)
 			player->kill();
 
 		//Checks if the player has lost all of their lives:
