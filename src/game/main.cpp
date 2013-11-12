@@ -167,7 +167,7 @@ int main()
 			player->jump();
 
 		//Check if the player is offscreen:
-		if(player->getSprite().getGlobalBounds().top > view.getSize().y)
+		if(player->getSprite().getGlobalBounds().top > (view.getCenter().y + (view.getSize().y / 2)))
 			player->kill();
 
 		//Checks if the player has lost all of their lives:
@@ -254,7 +254,7 @@ void positionUI(PlayableCharacter* player, sf::RenderWindow& window, sf::View& v
 	//Reposition the view:
 	float centreX = player->getSprite().getGlobalBounds().left;	
 	float centreY = (window.getSize().y / 2);
-//	float centreY = ((window.getSize().y - view.getCenter().y) / 2);
+//	float centreY = view.getCenter().y + ((window.getSize().y - view.getCenter().y) / 2);
 	view.setCenter(centreX, centreY);
 	window.setView(view);
 
