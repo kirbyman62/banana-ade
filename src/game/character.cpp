@@ -24,86 +24,9 @@ sf::Sprite& Character::getSprite()
 }
 
 //Checks for a collision between the character and the passed sprite:
-Collision Character::checkCollision(sf::Sprite& target) const
+bool Character::checkCollision(sf::Sprite& target) const
 {
-	//Gets the sides of the character:
-	//These are represented as 1 pixel wide rectangles:
-	sf::FloatRect A = _sprite.getGlobalBounds();
-	sf::FloatRect topA(A.left, A.top, A.width, 1);
-	sf::FloatRect bottomA(A.left, (A.top + A.height), A.width, 1);
-	sf::FloatRect leftA(A.left, A.top, 1, A.height);
-	sf::FloatRect rightA((A.left + A.width), A.top, 1, A.height);
-
-	//The rectangle of the target sprite, we will check to see
-	//if the character is inside this rectangle:
-	sf::FloatRect B = target.getGlobalBounds();
-
-	//Checks for collisions in the corners:
-	//Top left:
-	if((B.intersects(topA)) && (B.intersects(leftA)))
-		return TOPLEFT;
-
-	//Top right:
-	if((B.intersects(topA)) && (B.intersects(rightA)))
-		return TOPRIGHT;
-
-	//Bottom left:
-	if((B.intersects(bottomA)) && (B.intersects(leftA)))
-		return BOTTOMLEFT;
-
-	//Bottom right:
-	if((B.intersects(bottomA)) && (B.intersects(rightA)))
-		return BOTTOMRIGHT;
-
-	//Otherwise, it is a single side:
-	//Top:
-	if(B.intersects(topA))
-		return TOP;
-
-	//Bottom:
-	if(B.intersects(bottomA))
-		return BOTTOM;
-	
-	//Left:
-	if(B.intersects(leftA))
-		return LEFT;
-
-	//Right:
-	if(B.intersects(rightA))
-		return RIGHT;
-
-	//Otherwise, there is no collision:
-	return NONE;
-}
-
-//Checks for a collision between the character and the passed window:
-Collision Character::checkCollision(sf::Window& window) const
-{	
-	//Gets the sides of the character:
-	float topA, bottomA, leftA, rightA;
-	topA = _sprite.getGlobalBounds().top;
-	bottomA = _sprite.getGlobalBounds().height + topA;
-	leftA = _sprite.getGlobalBounds().left;
-	rightA = _sprite.getGlobalBounds().width + leftA;
-
-	//Top:
-	if(topA < 0)
-		return TOP;
-
-	//Bottom:
-	if(bottomA > window.getSize().y)
-		return BOTTOM;
-
-	//Left:
-	if(leftA < 0) 
-		return LEFT;
-
-	//Right:
-	if(rightA > window.getSize().x)
-		return RIGHT;
-
-	//Otherwise there is no collision:
-	return NONE;
+	return _sprite.getGlobalBounds().intersects(target.getGlobalBounds());	
 }
 
 //Flips the character's sprite to face the passed direction:

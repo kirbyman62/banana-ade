@@ -34,27 +34,13 @@ const int GREEN = 111;
 const int BLUE = 17;
 const sf::Color COLOUR_KEY = sf::Color(RED, GREEN, BLUE);
 
-//The collision types:
-enum Collision
-{
-	TOPLEFT,
-	TOPRIGHT,
-	BOTTOMLEFT,
-	BOTTOMRIGHT,
-	LEFT,
-	RIGHT,
-	TOP,
-	BOTTOM,
-	NONE,
-};
-
 //Movement directions:
 enum Direction
 {
-	DIRECTION_LEFT,
-	DIRECTION_RIGHT,
-	DIRECTION_UP,
-	DIRECTION_DOWN,
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
 };
 
 //The fonts used:

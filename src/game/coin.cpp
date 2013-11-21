@@ -60,7 +60,7 @@ Coin::Coin(float x, float y)
 void Coin::handleEvents(PlayableCharacter& player)
 {
 	//If the player collides with the coin:
-	if((player.checkCollision(_sprite) != NONE) && (! _isAcq))
+	if((player.checkCollision(_sprite)) && (! _isAcq))
 	{
 		//Increases the player's score:
 		player.addScore(100);

@@ -54,8 +54,7 @@ class Character
 		virtual void handleEvents(float) = 0;
 
 		//Checks for a collision with the given sprite or window:
-		Collision checkCollision(sf::Sprite&) const;
-		Collision checkCollision(sf::Window&) const;
+		bool checkCollision(sf::Sprite&) const;
 
 		//Flips the character to face the given direction:
 		void flip(Direction);

@@ -55,6 +55,6 @@ Spike::Spike(float x, float y)
 
 void Spike::handleEvents(PlayableCharacter& player)
 {
-	if(player.checkCollision(_sprite) != NONE)
+	if(player.checkCollision(_sprite))
 		player.kill();
 }

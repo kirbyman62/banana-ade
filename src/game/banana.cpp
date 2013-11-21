@@ -69,13 +69,13 @@ Banana::Banana(short unsigned int lives, unsigned int score)
 	//Set the default co-ordinates (not final):
 	_sprite.setPosition(400, 300);
 
-	_direction = DIRECTION_RIGHT;
+	_direction = RIGHT;
 }
 
 //Moves the Banana in the specified direction:
 void Banana::move(Direction direction, float frameTime)
 {
-	Collision collision = NONE;
+	bool collision = false;
 
 	//If the player isn't jumping or falling, set the image:
 	if((! _isFalling) && (! _isJumping))
@@ -98,10 +98,10 @@ void Banana::move(Direction direction, float frameTime)
 	else
 		_frame = 0;
 
-	if(direction == DIRECTION_LEFT)
+	if(direction == LEFT)
 	{
 		//Face left:
-		flip(DIRECTION_LEFT);
+		flip(LEFT);
 
 		//Move left:
 		_sprite.move((-X_VELOCITY * frameTime), 0);
@@ -112,7 +112,7 @@ void Banana::move(Direction direction, float frameTime)
 			if(level->getTiles()[i]->isSolid())
 			{
 				collision = checkCollision(level->getTiles()[i]->getSprite());
-				if((collision == LEFT) || (collision == TOPLEFT) ||	(collision == BOTTOMLEFT))
+				if(collision)
 				{
 					_sprite.move((X_VELOCITY * frameTime), 0);
 					break;
@@ -120,10 +120,10 @@ void Banana::move(Direction direction, float frameTime)
 			}
 		}
 	}
-	if(direction == DIRECTION_RIGHT)
+	if(direction == RIGHT)
 	{
 		//Face right:
-		flip(DIRECTION_RIGHT);
+		flip(RIGHT);
 
 		//Move left:
 		_sprite.move((X_VELOCITY * frameTime), 0);
@@ -134,7 +134,7 @@ void Banana::move(Direction direction, float frameTime)
 			if(level->getTiles()[i]->isSolid())
 			{
 				collision = checkCollision(level->getTiles()[i]->getSprite());
-				if((collision == RIGHT) || (collision == TOPRIGHT) || (collision == BOTTOMRIGHT))
+				if(collision)
 				{
 					_sprite.move((-X_VELOCITY * frameTime), 0);
 					break;
@@ -157,7 +157,7 @@ void Banana::special(float frameTime)
 
 void Banana::handleEvents(float frameTime)
 {
-	Collision collision = NONE;
+	bool collision = false;
 
 	if(_isJumping)
 	{
@@ -173,9 +173,6 @@ void Banana::handleEvents(float frameTime)
 			//If so, set the player to falling:
 			setFalling(true);
 			_heightJumped = 0;
-
-			//Move back:
-			_sprite.move(0, (Y_VELOCITY * frameTime));
 		}
 		else
 		{
@@ -185,7 +182,7 @@ void Banana::handleEvents(float frameTime)
 				if(level->getTiles()[i]->isSolid())
 				{
 					collision = checkCollision(level->getTiles()[i]->getSprite());
-					if((collision == TOP) || (collision == TOPLEFT) || (collision == TOPRIGHT))
+					if(collision)
 					{
 						//If so, set the player to falling:
 						setFalling(true);
@@ -211,15 +208,13 @@ void Banana::handleEvents(float frameTime)
 			if(level->getTiles()[i]->isSolid())
 			{
 				collision = checkCollision(level->getTiles()[i]->getSprite());
-				if((collision == BOTTOM) || (collision == BOTTOMLEFT) || (collision == BOTTOMRIGHT))
+				if(collision)
 				{
 					//If so, the player is no longer falling:
 					setFalling(false);
 
-					//Move to the top of the tile collided with:
-					float top = level->getTiles()[i]->getSprite().getGlobalBounds().top - 
-					_sprite.getGlobalBounds().height;
-					_sprite.setPosition(_sprite.getGlobalBounds().left, top);
+					//Move back:
+					_sprite.move(0, -(Y_VELOCITY * frameTime));
 
 					//Set the image:
 					_texture.update(_images[STATIONARY]);
@@ -233,18 +228,25 @@ void Banana::handleEvents(float frameTime)
 	//set the player to 'falling'.
 	else
 	{
+		//Move the sprite down:
+		_sprite.move(0, (Y_VELOCITY * frameTime));	
+
 		//Checks if there are any collisions:
 		for(unsigned int i = 0; i < level->getTiles().size(); i++)
 		{
 			if(level->getTiles()[i]->isSolid())
 			{
 				collision = checkCollision(level->getTiles()[i]->getSprite());
-				if((collision == BOTTOM) || (collision == BOTTOMLEFT) || (collision == BOTTOMRIGHT))
+				if(collision)
+				{
+					//Move back:
+					_sprite.move(0, -(Y_VELOCITY * frameTime));
 					break;
+				}
 			}
 		}	
 		//If there are none:
-		if((collision != BOTTOM) && (collision != BOTTOMLEFT) && (collision != BOTTOMRIGHT))
+		if(! collision)
 			setFalling(true);
 	}
 }

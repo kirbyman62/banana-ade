@@ -146,11 +146,11 @@ int main()
 
 		//Checks if the left key is pressed:
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-			player->move(DIRECTION_LEFT, frameTime);
+			player->move(LEFT, frameTime);
 
 		//Checks if the right key is pressed:
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-			player->move(DIRECTION_RIGHT, frameTime);
+			player->move(RIGHT, frameTime);
 
 		//If none are pressed, the player isn't moving, so set the image:
 		else

@@ -63,8 +63,8 @@ enum
 const float MAX_JUMP_HEIGHT = 100.0;
 
 //The X and Y velocity:
-const float X_VELOCITY = 100.0;
-const float Y_VELOCITY = 120.0;
+const float X_VELOCITY = 130.0;
+const float Y_VELOCITY = 150.0;
 
 class Banana : public PlayableCharacter
 {
